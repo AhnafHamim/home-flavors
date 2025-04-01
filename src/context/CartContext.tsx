@@ -18,14 +18,14 @@ interface CartState {
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
+  isLoading: boolean;
 }
 
 const CartContext = createContext<CartState | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  // Initialize items as an empty array
   const [items, setItems] = useState<CartItem[]>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -33,37 +33,31 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const savedCart = localStorage.getItem('cart');
       if (savedCart) {
         const parsedCart = JSON.parse(savedCart);
-        // Ensure the parsed data is an array
         setItems(Array.isArray(parsedCart) ? parsedCart : []);
       }
     } catch (error) {
       console.error('Error loading cart from localStorage:', error);
-      // If there's an error, ensure items is an empty array
       setItems([]);
     } finally {
-      setIsInitialized(true);
+      setIsLoading(false);
     }
   }, []);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    if (isInitialized) {
-      try {
-        localStorage.setItem('cart', JSON.stringify(items));
-      } catch (error) {
-        console.error('Error saving cart to localStorage:', error);
-      }
+    if (!isLoading) {
+      localStorage.setItem('cart', JSON.stringify(items));
     }
-  }, [items, isInitialized]);
+  }, [items, isLoading]);
 
   const addToCart = (newItem: Omit<CartItem, 'quantity'>) => {
     setItems(currentItems => {
-      const existingItem = currentItems.find(i => i.id === newItem.id);
+      const existingItem = currentItems.find(item => item.id === newItem.id);
       if (existingItem) {
-        return currentItems.map(i =>
-          i.id === newItem.id
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
+        return currentItems.map(item =>
+          item.id === newItem.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       }
       return [...currentItems, { ...newItem, quantity: 1 }];
@@ -75,30 +69,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQuantity = (id: string, quantity: number) => {
-    if (quantity < 1) {
-      removeFromCart(id);
-    } else {
-      setItems(currentItems =>
-        currentItems.map(item =>
-          item.id === id ? { ...item, quantity } : item
-        )
-      );
-    }
+    if (quantity < 1) return;
+    setItems(currentItems =>
+      currentItems.map(item =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
   };
 
   const clearCart = () => {
     setItems([]);
   };
 
-  // Calculate totals using useMemo to prevent unnecessary recalculations
-  const { totalItems, totalPrice } = useMemo(() => {
-    // Ensure items is an array before reducing
-    const safeItems = Array.isArray(items) ? items : [];
-    return {
-      totalItems: safeItems.reduce((sum, item) => sum + (item?.quantity || 0), 0),
-      totalPrice: safeItems.reduce((sum, item) => sum + ((item?.price || 0) * (item?.quantity || 0)), 0),
-    };
-  }, [items]);
+  const totalItems = useMemo(() => 
+    items.reduce((sum, item) => sum + item.quantity, 0),
+    [items]
+  );
+
+  const totalPrice = useMemo(() => 
+    items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+    [items]
+  );
 
   const value = {
     items,
@@ -108,16 +99,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     removeFromCart,
     updateQuantity,
     clearCart,
+    isLoading
   };
-
-  // Show loading state while initializing
-  if (!isInitialized) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
-      </div>
-    );
-  }
 
   return (
     <CartContext.Provider value={value}>
