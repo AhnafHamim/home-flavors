@@ -13,20 +13,13 @@ A full-stack food ordering platform built with Next.js 14, featuring real-time p
 - **Payment Integration**
   - Square Payment SDK integration
   - Secure payment processing
-  - Real-time order tracking
   - Sandbox testing environment
 
 - **Automated Notifications**
   - WhatsApp integration via Twilio
   - Instant order notifications
-  - Real-time status updates
-  - Automated customer communication
 
-- **Menu Management**
-  - Dynamic menu updates
-  - Category organization
-  - Price management
-  - Item availability control
+
 
 ## 🛠️ Technical Architecture
 
@@ -87,35 +80,8 @@ npm run dev
 - Environment variable protection
 - Square sandbox testing
 - Secure payment processing
-- API route protection
 - Type-safe implementations
 
-## 🌟 Key Integrations
-
-### Square Payment Processing
-- Secure payment handling
-- Real-time transaction processing
-- Order management system
-- Sandbox testing environment
-
-### Twilio WhatsApp Notifications
-- Automated order notifications
-- Real-time status updates
-- Customer communication
-- Business alerts
-
-### MongoDB Integration
-- Menu item management
-- Order history tracking
-- Customer data storage
-- Real-time updates
-
-## 📱 Mobile Responsiveness
-
-- Responsive design
-- Mobile-first approach
-- Cross-browser compatibility
-- Touch-friendly interfaces
 
 ## 🔄 Development Workflow
 
