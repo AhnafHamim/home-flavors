@@ -38,17 +38,14 @@ A full-stack food ordering platform built with Next.js 14, featuring real-time p
 
 ## 📸 Photos
 
-### Homepage
-![Homepage Screenshot](![image](https://github.com/user-attachments/assets/21cd750c-2a7e-404f-918f-a1d3c81ed922)
-)
-
 ### Menu
-![Menu Page Screenshot](![image](https://github.com/user-attachments/assets/0324d358-0591-45dd-9900-528f14dec5e5)
-)
+![Homepage Screenshot](https://github.com/user-attachments/assets/21cd750c-2a7e-404f-918f-a1d3c81ed922)
 
 ### Cart
-![Cart Screenshot](![image](https://github.com/user-attachments/assets/273a1a0c-e480-4729-9615-d6350ea01d19)
-)
+![Menu Page Screenshot](https://github.com/user-attachments/assets/0324d358-0591-45dd-9900-528f14dec5e5)
+
+### Checkout
+![Cart Screenshot](https://github.com/user-attachments/assets/273a1a0c-e480-4729-9615-d6350ea01d19)
 
 ## 💻 Installation
 
