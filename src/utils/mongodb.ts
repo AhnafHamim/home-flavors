@@ -48,4 +48,4 @@ export async function getDb(): Promise<Db> {
     console.log('Using database:', db.databaseName);
   }
   return db;
-} 
+}

@@ -44,14 +44,6 @@ const MENU_ITEMS: MenuItemInput[] = [
     category: 'Pasta',
     available: true,
   },
-  {
-    name: 'Penne Arrabbiata',
-    description: 'Spicy tomato sauce with garlic and red chili',
-    price: 14.99,
-    image: '/images/arrabbiata.jpg',
-    category: 'Pasta',
-    available: true,
-  },
   // Salads
   {
     name: 'Caesar Salad',

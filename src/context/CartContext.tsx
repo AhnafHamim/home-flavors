@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 export interface CartItem {
-  id: string;
+  id?: string;
   name: string;
   price: number;
   quantity: number;
@@ -15,8 +15,8 @@ interface CartState {
   totalItems: number;
   totalPrice: number;
   addToCart: (item: Omit<CartItem, 'quantity'>) => void;
-  removeFromCart: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  removeFromCart: (name: string) => void;
+  updateQuantity: (name: string, quantity: number) => void;
   clearCart: () => void;
   isLoading: boolean;
 }
@@ -52,10 +52,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (newItem: Omit<CartItem, 'quantity'>) => {
     setItems(currentItems => {
-      const existingItem = currentItems.find(item => item.id === newItem.id);
+      const existingItem = currentItems.find(item => item.name === newItem.name);
       if (existingItem) {
         return currentItems.map(item =>
-          item.id === newItem.id
+          item.name === newItem.name
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -64,15 +64,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const removeFromCart = (id: string) => {
-    setItems(currentItems => currentItems.filter(item => item.id !== id));
+  const removeFromCart = (name: string) => {
+    setItems(currentItems => currentItems.filter(item => item.name !== name));
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (name: string, quantity: number) => {
     if (quantity < 1) return;
     setItems(currentItems =>
       currentItems.map(item =>
-        item.id === id ? { ...item, quantity } : item
+        item.name === name ? { ...item, quantity } : item
       )
     );
   };

@@ -45,6 +45,7 @@ export default function CheckoutPage() {
       if (data.success) {
         clearCart();
         router.push(`/checkout/confirmation?orderNumber=${data.orderNumber}`);
+        console.log('Payment successful:', data);
       } else {
         throw new Error(data.error || 'Payment failed');
       }
